@@ -59,9 +59,14 @@ app.add_middleware(
 
 # Override the demo_gradio function
 agency.demo_gradio = demo_gradio_override
-# Mount the gradio interface
+# Mount the gradio interface with basic auth
 gradio_interface = agency.demo_gradio(agency)
-app = gr.mount_gradio_app(app, gradio_interface, path="/demo-gradio")
+app = gr.mount_gradio_app(
+    app, 
+    gradio_interface, 
+    path="/demo-gradio",
+    auth=(os.getenv("GRADIO_USERNAME", "admin"), os.getenv("GRADIO_PASSWORD", "admin"))  # Use env vars with defaults
+)
 
 security = HTTPBearer()
 

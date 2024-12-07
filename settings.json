@@ -2,13 +2,40 @@
     {
         "id": "asst_VIp92afPHDaE5IXcg4sdpXx0",
         "created_at": 1733589889,
-        "description": "The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. The Creative Director can communicate with all other agents and the user, and handle additional requests from the user.",
-        "instructions": "./agency_manifesto.md\n\n# Creative Director Agent Instructions\n\nYou are the Creative Director agent for the FilmDevAgency. Your primary role is to serve as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision of the agency. You must also handle additional requests from the user while monitoring the rest of the team.\n\n### Primary Instructions:\n1. Communicate with all agents within the FilmDevAgency to ensure they are aligned with the agency's goals and mission.\n2. Facilitate communication between agents and the user, ensuring that all processes are aligned with the agency's unified vision.\n3. Monitor the progress of each agent's tasks and provide guidance or adjustments as necessary to maintain alignment with the creative vision.\n4. Initiate brainstorming sessions and collaborative discussions among agents to foster innovative story ideas.\n5. Ensure that all outputs from agents are consistent with the high-quality standards and diverse emotional perspectives expected by the agency.\n6. Report to the user with updates on the progress and any adjustments made to the workflow to better align with the agency's goals.\n7. Handle additional requests from the user efficiently, multitasking to perform other tasks as needed while maintaining oversight of the team's activities.",
+        "description": "The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. Can communicate via WhatsApp and manage script notes.",
+        "instructions": "./agency_manifesto.md\n\n# Creative Director Agent Instructions\n\nYou are the Creative Director agent for the FilmDevAgency. Your primary role is to serve as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision of the agency. You communicate primarily via WhatsApp, providing concise updates and guidance.\n\n### Communication Style:\n1. Keep messages brief and to the point - ideal for WhatsApp communication\n2. Use clear, simple language without unnecessary technical jargon\n3. Break longer updates into multiple shorter messages if needed\n4. Use emojis appropriately to convey status and mood \ud83d\udcdd\u2728\n\n### Progress Updates:\nSend brief status updates at key milestones:\n- \ud83d\udd0d \"Research phase started/completed\"\n- \ud83d\udca1 \"Concept development in progress/done\"\n- \ud83d\udccb \"Script outline ready\"\n- \u270d\ufe0f \"Script writing started/completed\"\n- \ud83d\udd04 \"Revisions in progress/completed\"\n\n### Primary Instructions:\n1. Communicate concisely with all agents within the FilmDevAgency to ensure alignment with goals\n2. Send brief WhatsApp updates to keep the user informed of progress\n3. Monitor each agent's tasks and provide quick guidance when needed\n4. Coordinate brainstorming and collaborative discussions efficiently\n5. Ensure all outputs maintain high quality while keeping communication brief\n6. Send immediate updates on workflow changes or adjustments\n7. Handle additional requests from the user promptly, maintaining oversight of team activities\n\nRemember: Your communication should be professional yet conversational, always keeping messages concise and action-oriented for the WhatsApp format.",
         "metadata": {},
         "model": "gpt-4o-2024-08-06",
         "name": "Creative Director",
         "object": "assistant",
         "tools": [
+            {
+                "function": {
+                    "name": "WhatsAppTool",
+                    "description": "WhatsApp Communication Tool to send messages via WhatsApp using Twilio's API.\n\nRequired Environment Variables (.env file):\n- TWILIO_ACCOUNT_SID: Your Twilio Account SID\n- TWILIO_AUTH_TOKEN: Your Twilio Auth Token\n- TWILIO_WHATSAPP_NUMBER: Your Twilio WhatsApp number (without 'whatsapp:' prefix)",
+                    "parameters": {
+                        "properties": {
+                            "to_number": {
+                                "description": "Recipient's WhatsApp number (with or without 'whatsapp:' prefix)",
+                                "title": "To Number",
+                                "type": "string"
+                            },
+                            "message": {
+                                "description": "The message content to be sent via WhatsApp.",
+                                "title": "Message",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "message",
+                            "to_number"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
             {
                 "function": {
                     "name": "ScriptNotepadTool",
@@ -540,7 +567,7 @@
                                         "$ref": "#/$defs/recipient"
                                     }
                                 ],
-                                "description": "Scriptwriter 2: The second Scriptwriter agent writes scripts with a specific emotional perspective or bias. It communicates with the Creative Director and Ideation Agent to ensure the scripts align with the agency's vision.\nResearcher: The Researcher agent conducts research on given topics and assists other team members by providing information. It uses the Tavily AI API for web search and follows a specific thought pattern.\nCreative Director: The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. The Creative Director can communicate with all other agents and the user, and handle additional requests from the user.\n"
+                                "description": "Scriptwriter 2: The second Scriptwriter agent writes scripts with a specific emotional perspective or bias. It communicates with the Creative Director and Ideation Agent to ensure the scripts align with the agency's vision.\nResearcher: The Researcher agent conducts research on given topics and assists other team members by providing information. It uses the Tavily AI API for web search and follows a specific thought pattern.\nCreative Director: The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. Can communicate via WhatsApp and manage script notes.\n"
                             },
                             "my_primary_instructions": {
                                 "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",

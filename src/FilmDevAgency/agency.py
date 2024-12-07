@@ -53,8 +53,9 @@ except ImportError as e:
     logger.error(f"Import error occurred: {e}")
     raise
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from the FilmDevAgency/.env file
+env_path = Path(__file__).parent / '.env'
+load_dotenv(env_path)
 
 # Configure OpenAI API Key
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")

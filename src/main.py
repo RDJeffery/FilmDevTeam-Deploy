@@ -11,15 +11,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from ExampleAgency.agency import agency
-from utils.demo_gradio_override import demo_gradio_override
+# Load environment variables first
+load_dotenv()
 
+# Set environment variables
 APP_TOKEN = os.getenv("APP_TOKEN")
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
+from FilmDevAgency.agency import agency
+from utils.demo_gradio_override import demo_gradio_override
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-load_dotenv()
 # Initialize FastAPI application
 app = FastAPI()
 
@@ -45,7 +49,7 @@ app.add_middleware(
 agency.demo_gradio = demo_gradio_override
 # Mount the gradio interface
 gradio_interface = agency.demo_gradio(agency)
-app = gr.mount_gradio_app(app, gradio_interface, path="/demo-gradio", root_path="/demo-gradio")
+app = gr.mount_gradio_app(app, gradio_interface, path="/demo-gradio")
 
 security = HTTPBearer()
 

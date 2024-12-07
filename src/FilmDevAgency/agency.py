@@ -1,10 +1,37 @@
 from agency_swarm import Agency
-import logging  # Add logging
+import logging
 import time
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
 # Configure basic logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Setup required directories
+def setup_required_directories():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    agents = [
+        'CreativeDirector',
+        'Researcher',
+        'BrainstormingAgent',
+        'IdeationAgent',
+        'Scriptwriter1',
+        'Scriptwriter2'
+    ]
+    subdirs = ['files', 'schemas', 'tools']
+    
+    for agent in agents:
+        agent_dir = os.path.join(base_dir, agent)
+        for subdir in subdirs:
+            dir_path = os.path.join(agent_dir, subdir)
+            os.makedirs(dir_path, exist_ok=True)
+            logger.info(f"Created/verified directory: {dir_path}")
+
+# Create directories before importing agents
+logger.info("Setting up required directories...")
+setup_required_directories()
 
 # Debug imports
 logger.info("Starting to import modules...")
@@ -25,9 +52,6 @@ try:
 except ImportError as e:
     logger.error(f"Import error occurred: {e}")
     raise
-
-import os
-from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
@@ -63,9 +87,8 @@ agency = Agency([
      ],
      shared_instructions='./agency_manifesto.md',  # shared instructions for all agents
      temperature=0.3,  # default temperature for all agents
-     max_prompt_tokens=8000,  # reduced max tokens to prevent rate limit issues
-     
-               )
+     max_prompt_tokens=10000,  # reduced max tokens to prevent timeout issues
+     )
 logger.info("Agency setup completed")
 
 if __name__ == '__main__':

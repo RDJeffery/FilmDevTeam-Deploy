@@ -1,6 +1,8 @@
 import logging
 import os
 from typing import List
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 import uvicorn
 from pydantic import BaseModel
@@ -26,6 +28,16 @@ logging.basicConfig(level=logging.INFO)
 
 # Initialize FastAPI application
 app = FastAPI()
+
+# Create static directories if they don't exist
+static_dir = Path("src/static")
+assets_dir = static_dir / "assets"
+for dir_path in [static_dir, assets_dir]:
+    dir_path.mkdir(parents=True, exist_ok=True)
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="src/static"), name="static")
+app.mount("/assets", StaticFiles(directory="src/static/assets"), name="assets")
 
 # CORS Configuration
 # For local development, allow all origins
@@ -55,7 +67,6 @@ security = HTTPBearer()
 
 
 # Models
-
 class AttachmentTool(BaseModel):
     type: str
 
@@ -71,7 +82,6 @@ class AgencyRequest(BaseModel):
 
 
 # Token verification
-
 async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     if token != APP_TOKEN:
@@ -80,8 +90,6 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
 
 
 # API endpoint
-
-
 @app.post("/api/agency")
 async def get_completion(request: AgencyRequest, token: str = Depends(verify_token)):
     response = agency.get_completion(

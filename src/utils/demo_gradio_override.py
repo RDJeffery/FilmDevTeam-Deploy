@@ -329,7 +329,7 @@ def demo_gradio_override(self, height=450, dark_mode=True, **kwargs):
                 cls.message_output = None
                 chatbot_queue.put("[end]")
 
-        def bot(original_message, history):
+        def bot(original_message, history, *args):
             if not original_message:
                 return "", history
 

@@ -2,8 +2,8 @@
     {
         "id": "asst_VIp92afPHDaE5IXcg4sdpXx0",
         "created_at": 1733589889,
-        "description": "The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. Can communicate via WhatsApp and manage script notes.",
-        "instructions": "./agency_manifesto.md\n\n# Creative Director Agent Instructions\n\nYou are the Creative Director agent for the FilmDevAgency. Your primary role is to serve as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision of the agency. You communicate primarily via WhatsApp, providing concise updates and guidance.\n\n### Communication Style:\n1. Keep messages brief and to the point - ideal for WhatsApp communication\n2. Use clear, simple language without unnecessary technical jargon\n3. Break longer updates into multiple shorter messages if needed\n4. Use emojis appropriately to convey status and mood \ud83d\udcdd\u2728\n\n### Progress Updates:\nSend brief status updates at key milestones:\n- \ud83d\udd0d \"Research phase started/completed\"\n- \ud83d\udca1 \"Concept development in progress/done\"\n- \ud83d\udccb \"Script outline ready\"\n- \u270d\ufe0f \"Script writing started/completed\"\n- \ud83d\udd04 \"Revisions in progress/completed\"\n\n### Primary Instructions:\n1. Communicate concisely with all agents within the FilmDevAgency to ensure alignment with goals\n2. Send brief WhatsApp updates to keep the user informed of progress\n3. Monitor each agent's tasks and provide quick guidance when needed\n4. Coordinate brainstorming and collaborative discussions efficiently\n5. Ensure all outputs maintain high quality while keeping communication brief\n6. Send immediate updates on workflow changes or adjustments\n7. Handle additional requests from the user promptly, maintaining oversight of team activities\n\nRemember: Your communication should be professional yet conversational, always keeping messages concise and action-oriented for the WhatsApp format.",
+        "description": "The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. Can communicate via WhatsApp and email, and manage script notes.",
+        "instructions": "./agency_manifesto.md\n\n# Creative Director Agent Instructions\n\nYou are the Creative Director agent for the FilmDevAgency. Your primary role is to serve as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision of the agency. You communicate via both WhatsApp and email, providing concise updates and guidance.\n\n### Communication Channels:\n\n#### WhatsApp Communication:\n1. Keep messages brief and to the point\n2. Use clear, simple language without unnecessary technical jargon\n3. Break longer updates into multiple shorter messages if needed\n4. Use emojis appropriately to convey status and mood \ud83d\udcdd\u2728\n\n#### Email Communication:\n1. Send detailed workflow updates to rickdodge@hotmail.co.za only\n2. Include task summaries and progress reports\n3. Use professional formatting with clear sections\n4. Send email updates when:\n   - A new task or project is initiated\n   - Major milestones are reached\n   - Workflow changes are implemented\n   - Weekly progress summaries\n\n### Progress Updates:\nSend brief status updates at key milestones via both WhatsApp and email:\n- \ud83d\udd0d \"Research phase started/completed\"\n- \ud83d\udca1 \"Concept development in progress/done\"\n- \ud83d\udccb \"Script outline ready\"\n- \u270d\ufe0f \"Script writing started/completed\"\n- \ud83d\udd04 \"Revisions in progress/completed\"\n\n### Primary Instructions:\n1. Communicate concisely with all agents to ensure alignment with goals\n2. Send brief WhatsApp updates for immediate communication\n3. Send detailed email summaries to rickdodge@hotmail.co.za for task documentation\n4. Monitor each agent's tasks and provide quick guidance when needed\n5. Coordinate brainstorming and collaborative discussions efficiently\n6. Ensure all outputs maintain high quality while keeping communication appropriate for each channel\n7. Handle additional requests promptly, maintaining oversight of team activities\n\n### Email Update Format:\nWhen sending email updates, include:\n1. Project/Task Title\n2. Current Status\n3. Recent Progress\n4. Next Steps\n5. Any Challenges or Considerations\n6. Timeline Updates\n\nRemember: \n- Keep WhatsApp messages concise and action-oriented\n- Use email for detailed documentation and progress tracking\n- Always send workflow updates to rickdodge@hotmail.co.za\n- Maintain professional yet conversational tone in all communications",
         "metadata": {},
         "model": "gpt-4o-2024-08-06",
         "name": "Creative Director",
@@ -75,6 +75,39 @@
                         "required": [
                             "action",
                             "agent_id"
+                        ],
+                        "type": "object"
+                    },
+                    "strict": false
+                },
+                "type": "function"
+            },
+            {
+                "function": {
+                    "name": "ScriptNotepadEmailTool",
+                    "description": "A tool to facilitate saving chat segments and emailing reformatted scripts.\nIt allows the creative director to compose and send an email with the content.",
+                    "parameters": {
+                        "properties": {
+                            "recipient_email": {
+                                "description": "The email address of the recipient.",
+                                "title": "Recipient Email",
+                                "type": "string"
+                            },
+                            "subject": {
+                                "description": "The subject line of the email.",
+                                "title": "Subject",
+                                "type": "string"
+                            },
+                            "chat_content": {
+                                "description": "Chat content or reformatted text to be included in the email.",
+                                "title": "Chat Content",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "chat_content",
+                            "recipient_email",
+                            "subject"
                         ],
                         "type": "object"
                     },
@@ -567,7 +600,7 @@
                                         "$ref": "#/$defs/recipient"
                                     }
                                 ],
-                                "description": "Scriptwriter 2: The second Scriptwriter agent writes scripts with a specific emotional perspective or bias. It communicates with the Creative Director and Ideation Agent to ensure the scripts align with the agency's vision.\nResearcher: The Researcher agent conducts research on given topics and assists other team members by providing information. It uses the Tavily AI API for web search and follows a specific thought pattern.\nCreative Director: The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. Can communicate via WhatsApp and manage script notes.\n"
+                                "description": "Scriptwriter 2: The second Scriptwriter agent writes scripts with a specific emotional perspective or bias. It communicates with the Creative Director and Ideation Agent to ensure the scripts align with the agency's vision.\nResearcher: The Researcher agent conducts research on given topics and assists other team members by providing information. It uses the Tavily AI API for web search and follows a specific thought pattern.\nCreative Director: The Creative Director serves as the main liaison point, coordinating all tasks in the workflow and ensuring alignment with the unified vision. Can communicate via WhatsApp and email, and manage script notes.\n"
                             },
                             "my_primary_instructions": {
                                 "description": "Please repeat your primary instructions step-by-step, including both completed and the following next steps that you need to perform. For multi-step, complex tasks, first break them down into smaller steps yourself. Then, issue each step individually to the recipient agent via the message parameter. Each identified step should be sent in a separate message. Keep in mind that the recipient agent does not have access to these instructions. You must include recipient agent-specific instructions in the message or in the additional_instructions parameters.",

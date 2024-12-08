@@ -29,6 +29,31 @@ logging.basicConfig(level=logging.INFO)
 # Initialize FastAPI application
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup_event():
+    """Initialize email monitoring when the application starts"""
+    try:
+        # Log available agents
+        logging.info("Initializing agency...")
+        if hasattr(agency, 'agents'):
+            agent_names = [agent.name for agent in agency.agents]
+            logging.info(f"Available agents: {agent_names}")
+            
+            # Find the Creative Director agent
+            creative_director = next((agent for agent in agency.agents if agent.name == "Creative Director"), None)
+            if creative_director:
+                logging.info("Found Creative Director agent, starting email monitoring...")
+                creative_director.start_email_monitoring()
+                logging.info("Email monitoring started successfully")
+            else:
+                logging.error("Could not find Creative Director agent in agency.agents")
+                logging.error(f"Available agents: {agent_names}")
+        else:
+            logging.error("Agency has no agents attribute")
+    except Exception as e:
+        logging.error(f"Failed to start email monitoring: {str(e)}")
+        logging.error("Agency state:", exc_info=True)
+
 # Create static directories if they don't exist
 static_dir = Path("src/static")
 assets_dir = static_dir / "assets"

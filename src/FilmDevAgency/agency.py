@@ -156,9 +156,8 @@ agency = FilmDevAgency([
        [researcher, brainstorming_agent],  # Researcher can initiate communication with Brainstorming Agent
        [brainstorming_agent, ideation_agent],  # Brainstorming Agent can initiate communication with Ideation Agent
        [ideation_agent, scriptwriter1],  # Ideation Agent can initiate communication with Scriptwriter 1
-       [ideation_agent, scriptwriter2],  # Ideation Agent can initiate communication with Scriptwriter 2
-       [scriptwriter1, scriptwriter2],  # Scriptwriter 1 can initiate communication with Scriptwriter 2
-       [scriptwriter2, researcher],  # Scriptwriter 2 can initiate communication with Researcher
+       [scriptwriter1, scriptwriter2, ideation_agent, brainstorming_agent],  #Scriptwriter 1 can initiate communication with Scriptwriter 2 and Ideation Agent
+       [scriptwriter2, researcher, ideation_agent, brainstorming_agent],  # Scriptwriter 2 can initiate communication with Researcher and Ideation Agent    
        [scriptwriter1, researcher],  # Scriptwriter 1 can initiate communication with Researcher
        [scriptwriter1, creative_director],  # Scriptwriter 1 can initiate communication with Creative Director
      ],

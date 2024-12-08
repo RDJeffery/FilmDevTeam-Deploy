@@ -2,7 +2,10 @@ from agency_swarm.agents import Agent
 from FilmDevAgency.common_tools.WhatsAppTool import WhatsAppTool
 from FilmDevAgency.common_tools.ScriptNotepadTool import ScriptNotepadTool
 from FilmDevAgency.common_tools.EmailTool import ScriptNotepadEmailTool
+import logging
 
+# Configure logging
+logger = logging.getLogger(__name__)
 
 class CreativeDirector(Agent):
     def __init__(self, name="Creative Director"):
@@ -17,6 +20,7 @@ class CreativeDirector(Agent):
             temperature=0.3,
             max_prompt_tokens=25000,
         )
+        logger.info("Creative Director initialized")
 
     def response_validator(self, message):
         return message

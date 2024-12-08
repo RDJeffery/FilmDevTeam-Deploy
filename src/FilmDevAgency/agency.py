@@ -5,7 +5,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import threading
-from .common_tools.EmailReceiver import EmailReceiver
 from .common_tools.EmailTool import ScriptNotepadEmailTool
 
 # Configure basic logging
@@ -15,7 +14,6 @@ logger = logging.getLogger(__name__)
 class FilmDevAgency(Agency):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.email_receiver = EmailReceiver()
         self.email_monitoring = False
         self.monitor_thread = None
         logger.info("FilmDevAgency initialized with email monitoring capability")
